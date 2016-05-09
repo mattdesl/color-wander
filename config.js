@@ -1,52 +1,88 @@
-var SEED = String(Math.floor(Math.random() * 1000));
-console.log('Seed:', SEED);
-
 var seedRandom = require('seed-random');
 var palettes = require('./lib/color-palettes');
-var randomFunc = typeof SEED === 'undefined'
-  ? Math.random
-  : seedRandom(SEED);
+var createRandomRange = require('./lib/random-range');
 
-var random = require('./lib/random-range')(randomFunc);
 
-var maps = [
-  'maps/church2.jpg',
-  'maps/city4.jpg',
-  'maps/city5.jpg',
-  'maps/eye.jpg'
-];
+module.exports = function (seed) {
+  if (typeof seed === 'undefined') {
+    seed = String(Math.floor(Math.random() * 1000000));
+  }
 
-var mapSrc = maps[Math.floor(random(maps.length))];
-console.log(mapSrc);
+  console.log('Seed:', seed);
 
-module.exports = {
-  // rendering options
-  random: randomFunc,
-  pointilism: random(0, 0.1),
-  noiseScalar: [ 0.0000001, 0.0002 ],
-  globalAlpha: 0.5,
-  startArea: random(0.05, 0.75),
-  maxRadius: random(10, 50),
-  lineStyle: 'square',
-  interval: 0.01,
-  count: Math.floor(random(50, 500)),
-  steps: 1000,
-  endlessBrowser: false, // Whether to endlessly step in browser
+  var randomFunc = seedRandom(seed);
+  var random = createRandomRange(randomFunc);
 
-  // background image that drives the algorithm
-  debugLuma: false,
-  backgroundScale: 1,
-  backgorundFille: 'black',
-  backgroundSrc: mapSrc,
+  var maps = [
+    'maps/church2.jpg',
+    'maps/city4.jpg',
+    'maps/city2.jpg',
+    'maps/city5.jpg',
+    'maps/eye.jpg',
+    'maps/geo4.jpg',
+    'maps/sym3.jpg',
+    'maps/sym6.jpg',
+    'maps/map6.jpg',
+    'maps/map7.jpg',
+    'maps/scifi.jpg'
+  ];
 
-  // browser/node options
-  pixelRatio: 1,
-  width: 1280,
-  height: 720,
-  palette: palettes[Math.floor(random() * palettes.length)],
+  var mapSrc = maps[Math.floor(random(maps.length))];
+  console.log(mapSrc);
 
-  // node only options
-  asVideoFrames: false,
-  filename: 'render',
-  outputDir: 'output'
+  var scalar = random(1) > 0.5 ? 1 : 2;
+
+  return {
+    // rendering options
+    random: randomFunc,
+    seedName: seed,
+    pointilism: random(0, 0.1),
+    noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
+    globalAlpha: 0.5,
+    startArea: random(0.0, 1.5),
+    maxRadius: random(5, 100),
+    lineStyle: random(1) > 0.5 ? 'round' : 'square',
+    interval: random(0.001, 0.01),
+    count: Math.floor(random(50, 2000)),
+    steps: Math.floor(random(100, 1000)) ,
+    endlessBrowser: false, // Whether to endlessly step in browser
+
+    // background image that drives the algorithm
+    debugLuma: false,
+    backgroundScale: 1,
+    backgorundFille: 'black',
+    backgroundSrc: mapSrc,
+
+    // browser/node options
+    pixelRatio: 1,
+    width: 1280 * scalar,
+    height: 720 * scalar,
+    palette: getPalette(),
+
+    // node only options
+    asVideoFrames: false,
+    filename: 'render',
+    outputDir: 'output'
+  };
+
+  function getPalette () {
+    var paletteColors = palettes[Math.floor(random() * palettes.length)];
+    return arrayShuffle(paletteColors);    
+  }
+  
+  function arrayShuffle (arr) {
+    var rand;
+    var tmp;
+    var len = arr.length;
+    var ret = arr.slice();
+
+    while (len) {
+      rand = Math.floor(random(1) * len--);
+      tmp = ret[len];
+      ret[len] = ret[rand];
+      ret[rand] = tmp;
+    }
+
+    return ret;
+  }
 };

@@ -1,5 +1,5 @@
-var config = require('./config');
 var assign = require('object-assign');
+var createConfig = require('./config');
 var createRenderer = require('./lib/createRenderer');
 var createLoop = require('raf-loop');
 
@@ -7,42 +7,57 @@ var canvas = document.createElement('canvas');
 var background = new window.Image();
 var context = canvas.getContext('2d');
 
-var opts = assign({
-  backgroundImage: background,
-  context: context
-}, config);
+var loop = createLoop();
 
-var pixelRatio = typeof opts.pixelRatio === 'number' ? opts.pixelRatio : 1;
-canvas.width = opts.width * pixelRatio;
-canvas.height = opts.height * pixelRatio;
+window.addEventListener('resize', resize);
 
 document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
-document.body.style.background = opts.palette[0];
 document.body.appendChild(canvas);
 canvas.style.position = 'absolute';
-resize();
-window.addEventListener('resize', resize);
 
-background.onload = () => {
-  var renderer = createRenderer(opts);
+var randomize = () => reload(createConfig());
+randomize();
+window.addEventListener('mousedown', randomize);
+window.addEventListener('touchstart', randomize);
 
-  if (opts.debugLuma) {
-    renderer.debugLuma();
-  } else {
-    renderer.clear();
-    var stepCount = 0;
-    var loop = createLoop(() => {
-      renderer.step(opts.interval);
-      stepCount++;
-      if (!opts.endlessBrowser && stepCount > opts.steps) {
-        loop.stop();
-      }
-    }).start();
-  }
-};
+function reload (config) {
+  loop.removeAllListeners('tick');
+  loop.stop();
 
-background.src = config.backgroundSrc;
+  var opts = assign({
+    backgroundImage: background,
+    context: context
+  }, config);
+
+  var pixelRatio = typeof opts.pixelRatio === 'number' ? opts.pixelRatio : 1;
+  canvas.width = opts.width * pixelRatio;
+  canvas.height = opts.height * pixelRatio;
+
+  document.body.style.background = opts.palette[0];
+  resize();
+  
+  background.onload = () => {
+    var renderer = createRenderer(opts);
+
+    if (opts.debugLuma) {
+      renderer.debugLuma();
+    } else {
+      renderer.clear();
+      var stepCount = 0;
+      loop.on('tick', () => {
+        renderer.step(opts.interval);
+        stepCount++;
+        if (!opts.endlessBrowser && stepCount > opts.steps) {
+          loop.stop();
+        }
+      })
+      loop.start();
+    }
+  };
+
+  background.src = config.backgroundSrc;
+}
 
 function resize () {
   letterbox(canvas, [ window.innerWidth, window.innerHeight ]);
@@ -50,7 +65,7 @@ function resize () {
 
 // resize and reposition canvas to form a letterbox view
 function letterbox (element, parent) {
-  var aspect = opts.width / opts.height;
+  var aspect = element.width / element.height;
   var pwidth = parent[0];
   var pheight = parent[1];
 
