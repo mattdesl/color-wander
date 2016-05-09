@@ -17,6 +17,7 @@ canvas.width = opts.width * pixelRatio;
 canvas.height = opts.height * pixelRatio;
 
 document.body.style.margin = '0';
+document.body.style.overflow = 'hidden';
 document.body.style.background = opts.palette[0];
 document.body.appendChild(canvas);
 canvas.style.position = 'absolute';
@@ -30,8 +31,13 @@ background.onload = () => {
     renderer.debugLuma();
   } else {
     renderer.clear();
-    createLoop(dt => {
-      renderer.step(dt * opts.interval);
+    var stepCount = 0;
+    var loop = createLoop(() => {
+      renderer.step(opts.interval);
+      stepCount++;
+      if (!opts.endlessBrowser && stepCount > opts.steps) {
+        loop.stop();
+      }
     }).start();
   }
 };

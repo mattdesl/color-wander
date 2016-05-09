@@ -1,19 +1,24 @@
-var shuffle = require('array-shuffle');
-var palettes = require('./lib/color-palettes');
+var SEED = 'i';
 
-palettes = shuffle(palettes);
-// var paletteIndex = 33;
-// var paletteIndex = 19;
-var palette = palettes[0];
+var seedRandom = require('seed-random');
+var palettes = require('./lib/color-palettes');
+var random = typeof SEED === 'undefined'
+  ? Math.random
+  : seedRandom(SEED);
 
 module.exports = {
   // rendering options
+  random: random,
   pointilism: 0,
-  noiseScalar: [ 0.0000001, 0.0004 ],
+  noiseScalar: [ 0.0000001, 0.0002 ],
   globalAlpha: 0.5,
-  startArea: 0.75,
+  startArea: 0.05,
   maxRadius: 30,
   lineStyle: 'square',
+  interval: 0.01,
+  count: 500,
+  steps: 500,
+  endlessBrowser: false, // Whether to endlessly step in browser
 
   // background image that drives the algorithm
   debugLuma: false,
@@ -25,12 +30,9 @@ module.exports = {
   pixelRatio: 1,
   width: 1280,
   height: 720,
-  count: 500,
-  palette: palette,
-  interval: 0.0001,
+  palette: palettes[Math.floor(random() * palettes.length)],
 
   // node only options
-  steps: 100,
   asVideoFrames: false,
   filename: 'render',
   outputDir: 'output'
