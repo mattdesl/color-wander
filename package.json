@@ -47,7 +47,7 @@
     "ffmpeg": "ffmpeg -framerate 30 -i frames/test_%04d.png -y -s:v 1280x720 -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p output.mp4",
     "deploy": "surge -p .",
     "start": "budo browser.js:bundle.js --live -- -t babelify",
-    "build": "browserify index.js -t babelify | uglifyjs -m -c warnings=false > bundle.js"
+    "build": "browserify browser.js -t babelify | uglifyjs -m -c warnings=false > bundle.js"
   },
   "keywords": [],
   "repository": {
