@@ -1,3 +1,5 @@
+require('fastclick')(document.body);
+
 var assign = require('object-assign');
 var createConfig = require('./config');
 var createRenderer = require('./lib/createRenderer');
@@ -12,19 +14,40 @@ var loop = createLoop();
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
 
+var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
+
+if (isIOS) { // iOS bugs with full screen ...
+  const fixScroll = () => {
+    setTimeout(() => {
+      window.scrollTo(0, 1);
+    }, 500);
+  };
+
+  fixScroll();
+  window.addEventListener('orientationchange', () => {
+    fixScroll();
+  }, false);
+}
+
 window.addEventListener('resize', resize);
 document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
-document.documentElement.style.cursor = 'pointer';
 canvas.style.position = 'absolute';
 
 var randomize = (ev) => {
   if (ev) ev.preventDefault();
   reload(createConfig());
-}
+};
 randomize();
-canvas.addEventListener('mousedown', randomize);
-canvas.addEventListener('touchstart', randomize);
+resize();
+
+const addEvents = (element) => {
+  element.addEventListener('mousedown', randomize);
+  element.addEventListener('touchstart', randomize);
+};
+
+const targets = [ document.querySelector('#fill'), canvas ];
+targets.forEach(t => addEvents(t));
 
 function reload (config) {
   loop.removeAllListeners('tick');
@@ -39,19 +62,10 @@ function reload (config) {
   canvas.width = opts.width * pixelRatio;
   canvas.height = opts.height * pixelRatio;
 
-
-  var white = '#ffffff';
-  var black = '#000000';
-  var backgroundColor = opts.palette[0];
-  var whiteContrast = contrast.hex(white, backgroundColor);
-  var blackContrast = contrast.hex(black, backgroundColor);
-
-  document.body.style.background = backgroundColor;
-  seedContainer.style.color = getBestContrast(opts.palette);  
+  document.body.style.background = opts.palette[0];
+  seedContainer.style.color = getBestContrast(opts.palette);
   seedText.textContent = opts.seedName;
 
-  resize();
-  
   background.onload = () => {
     var renderer = createRenderer(opts);
 
@@ -66,7 +80,7 @@ function reload (config) {
         if (!opts.endlessBrowser && stepCount > opts.steps) {
           loop.stop();
         }
-      })
+      });
       loop.start();
     }
   };
@@ -102,6 +116,11 @@ function letterbox (element, parent) {
   var width = pwidth;
   var height = Math.round(width / aspect);
   var y = Math.floor(pheight - height) / 2;
+
+  if (isIOS) { // Stupid iOS bug with full screen nav bars
+    width += 1;
+    height += 1;
+  }
 
   element.style.top = y + 'px';
   element.style.width = width + 'px';

@@ -2,6 +2,8 @@
 
 Generative artwork in node/browser based on a seeded random.
 
+Blog post coming soon... :smile:
+
 ## Outputs
 
 Here are a few examples.

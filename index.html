@@ -6,26 +6,52 @@
   <title>color-wander</title>
   <link href='https://fonts.googleapis.com/css?family=Oxygen:300,700' rel='stylesheet' type='text/css'>
   <style type="text/css">
+  canvas {
+    cursor: pointer;
+  }
   .seed-container {
     cursor: auto;
     position: absolute;
     left: 10px;
-    bottom: 10px;
+    top: 10px;
     color: white;
     font-weight: 200;
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 12.25px;
     font-family: 'Oxygen', sans-serif
   }
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                    not supported by any browser */
+  }
   .seed-text {
-    /*font-size: 12px;*/
     font-weight: 700;
+  }
+  .howto {
+    font-size: 9px;
+  }
+  #fill {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
   </style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
-  <header class="seed-container">seed – <span class="seed-text">12380</span></header>
+  <div id="fill"></div>
+  <canvas id="canvas" class="noselect"></canvas>
+  <header class="seed-container">
+  <div>seed – <span class="seed-text">12380</span></div>
+  <div class="howto">tap to randomize</div>
+  </header>
   <script src="bundle.js"></script>
 </body>
 </html>
