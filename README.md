@@ -28,7 +28,7 @@ To run the browser experience:
 npm run start
 ```
 
-When you find a seed you like, you can render it as a high-resolution (2560x1440) print.
+When you find a seed you like, you can render it as a high-resolution (2560x1440) print. The following will render a PNG into the `output/` folder.
 
 ```sh
 node print [seed]
