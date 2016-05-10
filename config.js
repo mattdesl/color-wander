@@ -2,7 +2,6 @@ var seedRandom = require('seed-random');
 var palettes = require('./lib/color-palettes');
 var createRandomRange = require('./lib/random-range');
 
-
 module.exports = function (seed) {
   if (typeof seed === 'undefined') {
     seed = String(Math.floor(Math.random() * 1000000));
@@ -19,13 +18,13 @@ module.exports = function (seed) {
     'map7.jpg', 'geo5.jpg', 'geo4.jpg',
     'geo3.jpg', 'geo1.jpg', 'fractal2.jpg',
     'fractal1.jpg', 'eye.jpg', 'city5.jpg',
-    'city2.jpg', 'church2.jpg', 'architecture.jpg'
+    'city2.jpg', 'church2.jpg', 'architecture.jpg',
+    'pat1.jpg'
   ].map(function (p) {
     return 'maps/' + p;
   });
 
   var mapSrc = maps[Math.floor(random(maps.length))];
-  var scalar = random(1) > 0.5 ? 1 : 2;
 
   return {
     // rendering options
@@ -39,7 +38,7 @@ module.exports = function (seed) {
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
     count: Math.floor(random(50, 2000)),
-    steps: Math.floor(random(100, 1000)) ,
+    steps: Math.floor(random(100, 1000)),
     endlessBrowser: false, // Whether to endlessly step in browser
 
     // background image that drives the algorithm
@@ -62,9 +61,9 @@ module.exports = function (seed) {
 
   function getPalette () {
     var paletteColors = palettes[Math.floor(random() * palettes.length)];
-    return arrayShuffle(paletteColors);    
+    return arrayShuffle(paletteColors);
   }
-  
+
   function arrayShuffle (arr) {
     var rand;
     var tmp;
