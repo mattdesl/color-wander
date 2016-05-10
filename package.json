@@ -2,7 +2,7 @@
   "name": "color-wander",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./browser.js",
   "license": "MIT",
   "author": {
     "name": "Matt DesLauriers",
