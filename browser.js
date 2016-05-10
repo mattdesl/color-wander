@@ -2,24 +2,29 @@ var assign = require('object-assign');
 var createConfig = require('./config');
 var createRenderer = require('./lib/createRenderer');
 var createLoop = require('raf-loop');
+var contrast = require('wcag-contrast');
 
-var canvas = document.createElement('canvas');
+var canvas = document.querySelector('#canvas');
 var background = new window.Image();
 var context = canvas.getContext('2d');
 
 var loop = createLoop();
+var seedContainer = document.querySelector('.seed-container');
+var seedText = document.querySelector('.seed-text');
 
 window.addEventListener('resize', resize);
-
 document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
-document.body.appendChild(canvas);
+document.documentElement.style.cursor = 'pointer';
 canvas.style.position = 'absolute';
 
-var randomize = () => reload(createConfig());
+var randomize = (ev) => {
+  if (ev) ev.preventDefault();
+  reload(createConfig());
+}
 randomize();
-window.addEventListener('mousedown', randomize);
-window.addEventListener('touchstart', randomize);
+canvas.addEventListener('mousedown', randomize);
+canvas.addEventListener('touchstart', randomize);
 
 function reload (config) {
   loop.removeAllListeners('tick');
@@ -34,7 +39,17 @@ function reload (config) {
   canvas.width = opts.width * pixelRatio;
   canvas.height = opts.height * pixelRatio;
 
-  document.body.style.background = opts.palette[0];
+
+  var white = '#ffffff';
+  var black = '#000000';
+  var backgroundColor = opts.palette[0];
+  var whiteContrast = contrast.hex(white, backgroundColor);
+  var blackContrast = contrast.hex(black, backgroundColor);
+
+  document.body.style.background = backgroundColor;
+  seedContainer.style.color = getBestContrast(opts.palette);  
+  seedText.textContent = opts.seedName;
+
   resize();
   
   background.onload = () => {
@@ -61,6 +76,21 @@ function reload (config) {
 
 function resize () {
   letterbox(canvas, [ window.innerWidth, window.innerHeight ]);
+}
+
+function getBestContrast (palette) {
+  var bestContrastIdx = -1;
+  var bestContrast = -Infinity;
+  var background = palette[0];
+  palette.slice(1).forEach((p, i) => {
+    var ratio = contrast.hex(background, p);
+    if (ratio > bestContrast) {
+      bestContrast = ratio;
+      bestContrastIdx = i;
+    }
+  });
+  var ret = palette[bestContrastIdx + 1];
+  return ret;
 }
 
 // resize and reposition canvas to form a letterbox view

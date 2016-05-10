@@ -14,22 +14,17 @@ module.exports = function (seed) {
   var random = createRandomRange(randomFunc);
 
   var maps = [
-    'maps/church2.jpg',
-    'maps/city4.jpg',
-    'maps/city2.jpg',
-    'maps/city5.jpg',
-    'maps/eye.jpg',
-    'maps/geo4.jpg',
-    'maps/sym3.jpg',
-    'maps/sym6.jpg',
-    'maps/map6.jpg',
-    'maps/map7.jpg',
-    'maps/scifi.jpg'
-  ];
+    'sym6.jpg', 'sym3.jpg',
+    'scifi.jpg', 'nature1.jpg',
+    'map7.jpg', 'geo5.jpg', 'geo4.jpg',
+    'geo3.jpg', 'geo1.jpg', 'fractal2.jpg',
+    'fractal1.jpg', 'eye.jpg', 'city5.jpg',
+    'city2.jpg', 'church2.jpg', 'architecture.jpg'
+  ].map(function (p) {
+    return 'maps/' + p;
+  });
 
   var mapSrc = maps[Math.floor(random(maps.length))];
-  console.log(mapSrc);
-
   var scalar = random(1) > 0.5 ? 1 : 2;
 
   return {
@@ -55,8 +50,8 @@ module.exports = function (seed) {
 
     // browser/node options
     pixelRatio: 1,
-    width: 1280 * scalar,
-    height: 720 * scalar,
+    width: 1280 * 2,
+    height: 720 * 2,
     palette: getPalette(),
 
     // node only options

@@ -5,5 +5,6 @@ node_modules
 bundle.js
 maps/
 good/
-output/
+output/*.png
+output/*.jpg
 video/
