@@ -34,9 +34,25 @@ document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
 canvas.style.position = 'absolute';
 
+const updateHash = () => {
+  var hash = window.location.hash;
+  var regex = /^\#?([0-9]+)/;
+  var match = regex.exec(hash);
+  if (!match) return;
+  var seed = match[1];
+  if (hash && seed) {
+    reload(createConfig(seed));
+    // window.history.replaceState('', document.title, window.location.pathname + window.location.search);
+  }
+};
+if (window.location.hash) {
+  updateHash();
+}
+window.addEventListener('hashchange', updateHash);
+
 var randomize = (ev) => {
   if (ev) ev.preventDefault();
-  reload(createConfig());
+  reload(createConfig('80085'));
 };
 randomize();
 resize();
