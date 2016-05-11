@@ -13,6 +13,7 @@ var context = canvas.getContext('2d');
 var loop = createLoop();
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
+var hashSeed = location.hash.length > 0;
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
@@ -34,9 +35,16 @@ document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
 canvas.style.position = 'absolute';
 
+const getSeed = () => {
+  if (hashSeed) {
+    hashSeed = false;
+    return location.hash.replace('#', '');
+  }
+};
+
 var randomize = (ev) => {
   if (ev) ev.preventDefault();
-  reload(createConfig());
+  reload(createConfig(getSeed()));
 };
 randomize();
 resize();
@@ -65,6 +73,7 @@ function reload (config) {
   document.body.style.background = opts.palette[0];
   seedContainer.style.color = getBestContrast(opts.palette);
   seedText.textContent = opts.seedName;
+  location.hash = opts.seedName;
 
   background.onload = () => {
     var renderer = createRenderer(opts);
