@@ -2,7 +2,9 @@
 
 Generative artwork in node/browser based on a seeded random.
 
-Blog post coming soon... :smile:
+Blog post and more details:
+
+[Generative Art with Node.js and Canvas](http://mattdesl.svbtle.com/generative-art-with-nodejs-and-canvas)
 
 ## Live Demo
 
