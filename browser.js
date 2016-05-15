@@ -42,7 +42,11 @@ randomize();
 resize();
 
 const addEvents = (element) => {
-  element.addEventListener('mousedown', randomize);
+  element.addEventListener('mousedown', (ev) => {
+    if (ev.button === 0) {
+      randomize(ev);
+    }
+  });
   element.addEventListener('touchstart', randomize);
 };
 
