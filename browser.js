@@ -63,7 +63,7 @@ function reload (config) {
   canvas.height = opts.height * pixelRatio;
 
   document.body.style.background = opts.palette[0];
-  seedContainer.style.color = getBestContrast(opts.palette);
+  seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
   seedText.textContent = opts.seedName;
 
   background.onload = () => {
@@ -92,19 +92,17 @@ function resize () {
   letterbox(canvas, [ window.innerWidth, window.innerHeight ]);
 }
 
-function getBestContrast (palette) {
-  var bestContrastIdx = -1;
-  var bestContrast = -Infinity;
-  var background = palette[0];
-  palette.slice(1).forEach((p, i) => {
+function getBestContrast (background, colors) {
+  var bestContrastIdx = 0;
+  var bestContrast = 0;
+  colors.forEach((p, i) => {
     var ratio = contrast.hex(background, p);
     if (ratio > bestContrast) {
       bestContrast = ratio;
       bestContrastIdx = i;
     }
   });
-  var ret = palette[bestContrastIdx + 1];
-  return ret;
+  return colors[bestContrastIdx];
 }
 
 // resize and reposition canvas to form a letterbox view
