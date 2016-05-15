@@ -12,6 +12,8 @@ You can view the algorithm in real-time here:
 
 http://color-wander.surge.sh/
 
+In Chrome, you can right-click the canvas an "Save As" to get the full resolution.
+
 ## Outputs
 
 Here are a few examples.
@@ -50,6 +52,8 @@ Example:
 ```sh
 node print 180423
 ```
+
+> *Note:* For this experiment, the Node output resolution is currently the same as the browser canvas. Typically this approach, using `node-canvas`, is only worthwhile for much larger canvas resolutions.
 
 ## License
 
