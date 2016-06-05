@@ -12,7 +12,7 @@ module.exports = function (seed) {
   var random = createRandomRange(randomFunc);
 
   var maps = [
-    'cordoba-mc.jpg', 'cordoba-mci.jpg', 'sevilla-e.jpg'
+    'azulejo-granada.jpg'
   ].map(function (p) {
     return 'maps/' + p;
   });
