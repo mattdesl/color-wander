@@ -78,9 +78,8 @@
   <script>
     function downloadCanvas() {
       const link = document.getElementById('save-btn');
-      console.log('running download', link)
       link.href = document.getElementById('canvas').toDataURL();
-      link.download = 'wander.png';
+      link.download = new Date() + '.png';
       link.click();
     }
   </script>
