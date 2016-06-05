@@ -1,5 +1,5 @@
 var seedRandom = require('seed-random');
-var palettes = require('./lib/color-palettes.json');
+// var palettes = require('./lib/color-palettes.json');
 var createRandomRange = require('./lib/random-range');
 
 module.exports = function (seed) {
@@ -13,8 +13,7 @@ module.exports = function (seed) {
   var random = createRandomRange(randomFunc);
 
   var maps = [
-    'cordoba.jpg', 'cordoba-1.jpg', 'cordoba-2.jpg', 'cordoba-3.jpg', 'sevilla-1.jpeg', 
-    'sevilla-2.jpg', 'alhambra.jpg', 'alhambra-1.gif', 'alhambra-2.jpg'
+    'cordoba-mc.jpg', 'cordoba-mci.jpg', 'sevilla-e.jpg'
   ].map(function (p) {
     return 'maps/' + p;
   });
@@ -26,9 +25,9 @@ module.exports = function (seed) {
     random: randomFunc,
     seedName: seed,
     pointilism: random(0, 0.2),
-    noiseScalar: [ random(0.0000001, 0.0000001), random(0.0001, 0.001) ],
+    noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
     globalAlpha: 0.5,
-    startArea: random(0.0, 2.5),
+    startArea: random(0.0, 1),
     maxRadius: random(5, 100),
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
@@ -46,7 +45,6 @@ module.exports = function (seed) {
     pixelRatio: 1,
     width: 1280 * 2,
     height: 720 * 2,
-    palette: getPalette(),
 
     // node only options
     asVideoFrames: false,

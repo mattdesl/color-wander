@@ -10,6 +10,8 @@ var canvas = document.querySelector('#canvas');
 var background = new window.Image();
 var context = canvas.getContext('2d');
 
+// color thief imported from dist
+var colorThief = new ColorThief();
 var loop = createLoop();
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
@@ -79,13 +81,19 @@ function reload (config) {
   canvas.width = opts.width * pixelRatio;
   canvas.height = opts.height * pixelRatio;
 
-  document.body.style.background = opts.palette[0];
-  seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
   seedText.textContent = opts.seedName;
   mapText.textContent = opts.backgroundSrc;
 
   background.onload = () => {
+    
+    opts.palette = colorThief.getPalette(background, 5).map((colorBytes) => {
+      return '#' + colorBytes.map((c) => c.toString(16)).join('');
+    });
+
     var renderer = createRenderer(opts);
+
+    document.body.style.background = opts.palette[0];
+    seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
 
     if (opts.debugLuma) {
       renderer.debugLuma();
