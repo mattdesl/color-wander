@@ -13,6 +13,8 @@ var context = canvas.getContext('2d');
 var loop = createLoop();
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
+var mapText = document.querySelector('.map-text');
+var how2Text = document.querySelector('.howto');
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
@@ -34,9 +36,20 @@ document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
 canvas.style.position = 'absolute';
 
+var isLooping = false
+
 var randomize = (ev) => {
   if (ev) ev.preventDefault();
-  reload(createConfig());
+  
+  if (isLooping) {
+    isLooping = !isLooping;
+    loop.stop();
+    how2Text.textContent = 'TAP TO RANDOMIZE';
+  } else {
+    isLooping = !isLooping;
+    reload(createConfig());
+    how2Text.textContent = 'TAP TO STOP';
+  }
 };
 randomize();
 resize();
@@ -69,6 +82,7 @@ function reload (config) {
   document.body.style.background = opts.palette[0];
   seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
   seedText.textContent = opts.seedName;
+  mapText.textContent = opts.backgroundSrc;
 
   background.onload = () => {
     var renderer = createRenderer(opts);

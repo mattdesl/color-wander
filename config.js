@@ -13,13 +13,8 @@ module.exports = function (seed) {
   var random = createRandomRange(randomFunc);
 
   var maps = [
-    'sym6.jpg', 'sym3.jpg',
-    'scifi.jpg', 'nature1.jpg',
-    'map7.jpg', 'geo5.jpg', 'geo4.jpg',
-    'geo3.jpg', 'geo1.jpg', 'fractal2.jpg',
-    'fractal1.jpg', 'eye.jpg', 'city5.jpg',
-    'city2.jpg', 'church2.jpg', 'architecture.jpg',
-    'pat1.jpg'
+    'cordoba.jpg', 'cordoba-1.jpg', 'cordoba-2.jpg', 'cordoba-3.jpg', 'sevilla-1.jpeg', 
+    'sevilla-2.jpg', 'alhambra.jpg', 'alhambra-1.gif', 'alhambra-2.jpg'
   ].map(function (p) {
     return 'maps/' + p;
   });
@@ -30,16 +25,16 @@ module.exports = function (seed) {
     // rendering options
     random: randomFunc,
     seedName: seed,
-    pointilism: random(0, 0.1),
-    noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
+    pointilism: random(0, 0.2),
+    noiseScalar: [ random(0.0000001, 0.0000001), random(0.0001, 0.001) ],
     globalAlpha: 0.5,
-    startArea: random(0.0, 1.5),
+    startArea: random(0.0, 2.5),
     maxRadius: random(5, 100),
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
     count: Math.floor(random(50, 2000)),
     steps: Math.floor(random(100, 1000)),
-    endlessBrowser: false, // Whether to endlessly step in browser
+    endlessBrowser: true, // Whether to endlessly step in browser
 
     // background image that drives the algorithm
     debugLuma: false,
