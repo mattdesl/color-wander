@@ -3,6 +3,7 @@ require('fastclick')(document.body);
 var assign = require('object-assign');
 var createConfig = require('./config');
 var createRenderer = require('./lib/createRenderer');
+var palettes = require('./lib/color-palettes.json');
 var createLoop = require('raf-loop');
 var contrast = require('wcag-contrast');
 
@@ -13,10 +14,18 @@ var context = canvas.getContext('2d');
 // color thief imported from dist
 var colorThief = new ColorThief();
 var loop = createLoop();
+
+// DOM elements
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
 var mapText = document.querySelector('.map-text');
 var how2Text = document.querySelector('.howto');
+var paletteOpt = document.querySelector('.palette-opt');
+var coverall = document.querySelector('#coverall');
+
+// toggle options
+var isRandomPalette = false // to be defined by dropping an image
+var droppedMapSrc = null // to be defined by dropping an image
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
@@ -44,9 +53,7 @@ var randomize = (ev) => {
   if (ev) ev.preventDefault();
   
   if (isLooping) {
-    isLooping = !isLooping;
-    loop.stop();
-    how2Text.textContent = 'TAP TO RANDOMIZE';
+    stopRandomize();
   } else {
     isLooping = !isLooping;
     reload(createConfig());
@@ -82,14 +89,10 @@ function reload (config) {
   canvas.height = opts.height * pixelRatio;
 
   seedText.textContent = opts.seedName;
-  mapText.textContent = opts.backgroundSrc;
+  mapText.textContent = (droppedMapSrc && 'dropped file') || opts.backgroundSrc;
 
-  background.onload = () => {
-    
-    opts.palette = colorThief.getPalette(background, 5).map((colorBytes) => {
-      return '#' + colorBytes.map((c) => c.toString(16)).join('');
-    });
-
+  background.onload = () => {  
+    setPalette(opts)
     var renderer = createRenderer(opts);
 
     document.body.style.background = opts.palette[0];
@@ -111,7 +114,8 @@ function reload (config) {
     }
   };
 
-  background.src = config.backgroundSrc;
+  background.src = droppedMapSrc || config.backgroundSrc;
+  droppedMapSrc = null
 }
 
 function resize () {
@@ -149,4 +153,85 @@ function letterbox (element, parent) {
   element.style.top = y + 'px';
   element.style.width = width + 'px';
   element.style.height = height + 'px';
+}
+
+
+// Check palette option
+paletteOpt.onclick = (evt) => {
+  isRandomPalette = !isRandomPalette;
+  paletteOpt.innerHTML = isRandomPalette;
+  stopRandomize();
+  randomize();
+}
+
+// Choose a palette based on image or randomize it
+function setPalette (opts) {
+  if (isRandomPalette) {
+    var paletteColors = palettes[Math.floor(Math.random() * palettes.length)];
+    opts.palette = arrayShuffle(paletteColors);
+  } else {
+    opts.palette = colorThief.getPalette(background, 5).map((colorBytes) => {
+      return '#' + colorBytes.map((c) => c.toString(16)).join('');
+    });
+  }
+}
+
+// Allow drag and drop
+window.addEventListener('dragenter', toggleCoverall);
+window.addEventListener('dragenter', allowDrag);
+window.addEventListener('dragover', allowDrag);
+window.addEventListener('dragleave', toggleCoverall);
+
+window.addEventListener('drop', function handleDrop(evt) {
+  evt.preventDefault();
+
+  var dt = evt.dataTransfer;
+  var file = dt.files[0];
+  var reader = new FileReader();
+  // attach event handlers here...
+  reader.addEventListener('loadend', function (evt) {
+    droppedMapSrc = reader.result;
+    toggleCoverall();
+    stopRandomize();
+    randomize();
+  });
+  reader.readAsDataURL(file);
+
+  return false;
+});
+
+function stopRandomize () {
+  loop.stop();
+  isLooping = !isLooping;
+  how2Text.textContent = 'TAP TO RANDOMIZE';
+}
+
+function allowDrag(evt) {
+  evt.preventDefault();
+}
+
+function toggleCoverall () {
+  if (coverall.style.opacity > 0) {
+    coverall.style.opacity = 0;
+    coverall.style.zIndex = -100;
+  } else {
+    coverall.style.opacity = 0.5;
+    coverall.style.zIndex = 100;
+  }
+}
+
+function arrayShuffle (arr) {
+  var rand;
+  var tmp;
+  var len = arr.length;
+  var ret = arr.slice();
+
+  while (len) {
+    rand = Math.floor(Math.random(1) * len--);
+    tmp = ret[len];
+    ret[len] = ret[rand];
+    ret[rand] = tmp;
+  }
+
+  return ret;
 }

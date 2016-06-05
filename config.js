@@ -1,5 +1,4 @@
 var seedRandom = require('seed-random');
-// var palettes = require('./lib/color-palettes.json');
 var createRandomRange = require('./lib/random-range');
 
 module.exports = function (seed) {
@@ -51,25 +50,4 @@ module.exports = function (seed) {
     filename: 'render',
     outputDir: 'output'
   };
-
-  function getPalette () {
-    var paletteColors = palettes[Math.floor(random() * palettes.length)];
-    return arrayShuffle(paletteColors);
-  }
-
-  function arrayShuffle (arr) {
-    var rand;
-    var tmp;
-    var len = arr.length;
-    var ret = arr.slice();
-
-    while (len) {
-      rand = Math.floor(random(1) * len--);
-      tmp = ret[len];
-      ret[len] = ret[rand];
-      ret[rand] = tmp;
-    }
-
-    return ret;
-  }
 };
