@@ -26,6 +26,7 @@ var coverall = document.querySelector('#coverall');
 // toggle options
 var isRandomPalette = false // to be defined by dropping an image
 var droppedMapSrc = null // to be defined by dropping an image
+var hashSeed = location.hash.length > 0;
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
@@ -60,6 +61,17 @@ var randomize = (ev) => {
     how2Text.textContent = 'TAP TO STOP';
   }
 };
+const getSeed = () => {
+  if (hashSeed) {
+    hashSeed = false;
+    return location.hash.replace('#', '');
+  }
+};
+
+var randomize = (ev) => {
+  if (ev) ev.preventDefault();
+  reload(createConfig(getSeed()));
+};
 randomize();
 resize();
 
@@ -90,6 +102,7 @@ function reload (config) {
 
   seedText.textContent = opts.seedName;
   mapText.textContent = (droppedMapSrc && 'dropped file') || opts.backgroundSrc;
+  location.hash = opts.seedName;
 
   background.onload = () => {  
     setPalette(opts)
