@@ -55,6 +55,11 @@ node print 180423
 
 > *Note:* For this experiment, the Node output resolution is currently the same as the browser canvas. Typically this approach, using `node-canvas`, is only worthwhile for much larger canvas resolutions.
 
+## Seeds I like
+* 722730
+* 42708
+* 94413
+
 ## License
 
 MIT, see [LICENSE.md](http://github.com/mattdesl/color-wander/blob/master/LICENSE.md) for details.

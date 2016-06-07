@@ -57,7 +57,7 @@ var randomize = (ev) => {
     stopRandomize();
   } else {
     isLooping = !isLooping;
-    reload(createConfig());
+    reload(createConfig(getSeed()));
     how2Text.textContent = 'TAP TO STOP';
   }
 };
@@ -68,10 +68,6 @@ const getSeed = () => {
   }
 };
 
-var randomize = (ev) => {
-  if (ev) ev.preventDefault();
-  reload(createConfig(getSeed()));
-};
 randomize();
 resize();
 
@@ -174,7 +170,7 @@ paletteOpt.onclick = (evt) => {
   isRandomPalette = !isRandomPalette;
   paletteOpt.innerHTML = isRandomPalette;
   stopRandomize();
-  randomize();
+  reload(window.WANDER_SETTINGS)
 }
 
 // Choose a palette based on image or randomize it

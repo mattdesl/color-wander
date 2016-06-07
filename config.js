@@ -6,6 +6,7 @@ window.WANDER_SETTINGS = {}
 
 module.exports = function (seed) {
   if (typeof seed === 'undefined') {
+    console.log('reseting seed')
     seed = String(Math.floor(Math.random() * 1000000));
   }
 
@@ -20,7 +21,7 @@ module.exports = function (seed) {
 
   var mapSrc = maps[Math.floor(random(maps.length))];
 
-  window.WANDER_DEFAULTS = {
+  window.WANDER_SETTINGS = {
     // rendering options
     pointilism: random(0, 0.2),
     noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
@@ -49,14 +50,14 @@ module.exports = function (seed) {
     outputDir: 'output'
   };
 
-  return assign(window.WANDER_DEFAULTS, {
+  return assign(window.WANDER_SETTINGS, {
     random: randomFunc,
     seedName: seed,
     backgroundSrc: mapSrc,
-  }, window.WANDER_SETTINGS)
+  }, window.WANDER_OVERRIDE)
 };
 
-console.info('[Pro tip] Add settings to *window.WANDER_SETTINGS* to tune results')
-console.info('[Pro tip] run `console.log(WANDER_DEFAULTS)` to read the current options')
+console.info('[Pro tip] Add settings to *window.WANDER_OVERRIDE* to tune results')
+console.info('[Pro tip] run `console.log(WANDER_SETTINGS)` to read the current options')
 console.info('[Pro tip] refresh the page to restore defaults')
 
