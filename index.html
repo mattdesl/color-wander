@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, shrink-to-fit=0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <title>color-wander</title>
+  <title>Wander</title>
   <link href='https://fonts.googleapis.com/css?family=Oxygen:300,700' rel='stylesheet' type='text/css'>
   <style type="text/css">
   canvas {
@@ -32,10 +32,22 @@
   .seed-text {
     font-weight: 700;
   }
+  #save-btn {
+    position: fixed;
+    bottom: 15px; right: 15px;
+    height: 24px; width: 24px;
+    opacity: 0.6;
+  }
+  #save-btn:hover {
+    opacity: 1;
+  }
   .howto {
     font-size: 9px;
   }
-  #fill {
+  .palette-opt {
+    cursor: pointer;
+  }
+  #fill, #coverall {
     cursor: pointer;
     position: absolute;
     top: 0;
@@ -43,15 +55,33 @@
     width: 100%;
     height: 100%;
   }
+
+  #coverall {
+    background: #555;
+    opacity: 0;
+  }
   </style>
 </head>
 <body>
   <div id="fill"></div>
+  <div id="coverall"></div>
   <canvas id="canvas" class="noselect"></canvas>
   <header class="seed-container">
   <div>seed – <span class="seed-text">12380</span></div>
+  <div>map – <span class="map-text"> * </span></div>
+  <div>random palette – <u class="palette-opt"> false </u></div>
   <div class="howto">tap to randomize</div>
   </header>
+  <a href='javascript:downloadCanvas()' title="Download result" id="save-btn"> <img alt="save" src="vendor/save.svg"/></a>
+  <script src="vendor/color-thief.js"></script>
   <script src="bundle.js"></script>
+  <script>
+    function downloadCanvas() {
+      const link = document.getElementById('save-btn');
+      link.href = document.getElementById('canvas').toDataURL();
+      link.download = new Date() + '.png';
+      link.click();
+    }
+  </script>
 </body>
 </html>

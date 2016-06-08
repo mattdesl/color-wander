@@ -3,6 +3,7 @@ require('fastclick')(document.body);
 var assign = require('object-assign');
 var createConfig = require('./config');
 var createRenderer = require('./lib/createRenderer');
+var palettes = require('./lib/color-palettes.json');
 var createLoop = require('raf-loop');
 var contrast = require('wcag-contrast');
 
@@ -10,9 +11,22 @@ var canvas = document.querySelector('#canvas');
 var background = new window.Image();
 var context = canvas.getContext('2d');
 
+// color thief imported from dist
+var colorThief = new ColorThief();
 var loop = createLoop();
+
+// DOM elements
 var seedContainer = document.querySelector('.seed-container');
 var seedText = document.querySelector('.seed-text');
+var mapText = document.querySelector('.map-text');
+var how2Text = document.querySelector('.howto');
+var paletteOpt = document.querySelector('.palette-opt');
+var coverall = document.querySelector('#coverall');
+
+// toggle options
+var isRandomPalette = false // to be defined by dropping an image
+var droppedMapSrc = null // to be defined by dropping an image
+var hashSeed = location.hash.length > 0;
 
 var isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
 
@@ -34,10 +48,26 @@ document.body.style.margin = '0';
 document.body.style.overflow = 'hidden';
 canvas.style.position = 'absolute';
 
+var isLooping = false
+
 var randomize = (ev) => {
   if (ev) ev.preventDefault();
-  reload(createConfig());
+  
+  if (isLooping) {
+    stopRandomize();
+  } else {
+    isLooping = !isLooping;
+    reload(createConfig(getSeed()));
+    how2Text.textContent = 'TAP TO STOP';
+  }
 };
+const getSeed = () => {
+  if (hashSeed) {
+    hashSeed = false;
+    return location.hash.replace('#', '');
+  }
+};
+
 randomize();
 resize();
 
@@ -66,12 +96,16 @@ function reload (config) {
   canvas.width = opts.width * pixelRatio;
   canvas.height = opts.height * pixelRatio;
 
-  document.body.style.background = opts.palette[0];
-  seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
   seedText.textContent = opts.seedName;
+  mapText.textContent = (droppedMapSrc && 'dropped file') || opts.backgroundSrc;
+  location.hash = opts.seedName;
 
-  background.onload = () => {
+  background.onload = () => {  
+    setPalette(opts)
     var renderer = createRenderer(opts);
+
+    document.body.style.background = opts.palette[0];
+    seedContainer.style.color = getBestContrast(opts.palette[0], opts.palette.slice(1));
 
     if (opts.debugLuma) {
       renderer.debugLuma();
@@ -89,7 +123,8 @@ function reload (config) {
     }
   };
 
-  background.src = config.backgroundSrc;
+  background.src = droppedMapSrc || config.backgroundSrc;
+  droppedMapSrc = null
 }
 
 function resize () {
@@ -127,4 +162,85 @@ function letterbox (element, parent) {
   element.style.top = y + 'px';
   element.style.width = width + 'px';
   element.style.height = height + 'px';
+}
+
+
+// Check palette option
+paletteOpt.onclick = (evt) => {
+  isRandomPalette = !isRandomPalette;
+  paletteOpt.innerHTML = isRandomPalette;
+  stopRandomize();
+  reload(window.WANDER_SETTINGS)
+}
+
+// Choose a palette based on image or randomize it
+function setPalette (opts) {
+  if (isRandomPalette) {
+    var paletteColors = palettes[Math.floor(Math.random() * palettes.length)];
+    opts.palette = arrayShuffle(paletteColors);
+  } else {
+    opts.palette = colorThief.getPalette(background, 5).map((colorBytes) => {
+      return '#' + colorBytes.map((c) => c.toString(16)).join('');
+    });
+  }
+}
+
+// Allow drag and drop
+window.addEventListener('dragenter', toggleCoverall);
+window.addEventListener('dragenter', allowDrag);
+window.addEventListener('dragover', allowDrag);
+window.addEventListener('dragleave', toggleCoverall);
+
+window.addEventListener('drop', function handleDrop(evt) {
+  evt.preventDefault();
+
+  var dt = evt.dataTransfer;
+  var file = dt.files[0];
+  var reader = new FileReader();
+  // attach event handlers here...
+  reader.addEventListener('loadend', function (evt) {
+    droppedMapSrc = reader.result;
+    toggleCoverall();
+    stopRandomize();
+    randomize();
+  });
+  reader.readAsDataURL(file);
+
+  return false;
+});
+
+function stopRandomize () {
+  loop.stop();
+  isLooping = !isLooping;
+  how2Text.textContent = 'TAP TO RANDOMIZE';
+}
+
+function allowDrag(evt) {
+  evt.preventDefault();
+}
+
+function toggleCoverall () {
+  if (coverall.style.opacity > 0) {
+    coverall.style.opacity = 0;
+    coverall.style.zIndex = -100;
+  } else {
+    coverall.style.opacity = 0.5;
+    coverall.style.zIndex = 100;
+  }
+}
+
+function arrayShuffle (arr) {
+  var rand;
+  var tmp;
+  var len = arr.length;
+  var ret = arr.slice();
+
+  while (len) {
+    rand = Math.floor(Math.random(1) * len--);
+    tmp = ret[len];
+    ret[len] = ret[rand];
+    ret[rand] = tmp;
+  }
+
+  return ret;
 }
