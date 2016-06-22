@@ -34,7 +34,7 @@ module.exports = function (seed) {
     noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
     globalAlpha: 0.5,
     startArea: random(0.0, 1.5),
-    maxRadius: random(5, 100),
+    maxRadius: random(1, 400),
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
     count: Math.floor(random(50, 2000)),
@@ -49,9 +49,9 @@ module.exports = function (seed) {
 
     // browser/node options
     pixelRatio: 1,
-    width: 1280 * 2,
-    height: 720 * 2,
-    palette: getPalette(),
+    width: 1440 * 2,
+    height: 900 * 2,
+    palette: [ '#fff', '#000', 'hsl(0, 0%, 25%)', 'hsl(0, 0%, 50%)' ],//getPalette(),
 
     // node only options
     asVideoFrames: false,
