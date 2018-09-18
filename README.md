@@ -57,4 +57,4 @@ node print 180423
 
 ## License
 
-MIT, see [LICENSE.md](http://github.com/mattdesl/color-wander/blob/master/LICENSE.md) for details.
+The source code is licensed under MIT, the actual design/visuals/concept/artwork is licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/). If you need a more specific license for commercial reasons, please open a new issue to discuss it with me.
