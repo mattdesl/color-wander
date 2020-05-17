@@ -1,45 +1,28 @@
-# color-wander
+# Color wander
 
-Generative artwork in node/browser based on a seeded random.
+🎨 Generative artwork in node/browser based on a seeded random.
 
-Blog post and more details:
+Project forked from [mattdesl/color-wander](https://github.com/mattdesl/color-wander)
 
-[Generative Art with Node.js and Canvas](http://mattdesl.svbtle.com/generative-art-with-nodejs-and-canvas)
-
-## Live Demo
-
-You can view the algorithm in real-time here:
-
-http://color-wander.surge.sh/
-
-In Chrome, you can right-click the canvas an "Save As" to get the full resolution.
-
-## Outputs
-
-Here are a few examples.
-
-<img src="http://i.imgur.com/VU7G4LX.jpg" width="85%" />  
-<img src="http://i.imgur.com/ooYrDUW.jpg" width="85%" />  
-<img src="http://i.imgur.com/dTb32La.jpg" width="85%" />  
-<img src="http://i.imgur.com/IrZGveh.jpg" width="85%" />  
-<img src="http://i.imgur.com/TyI4sQX.jpg" width="85%" />  
-<img src="http://i.imgur.com/5QRD3Ps.jpg" width="85%" />  
-
-You can download some of these as lossless PNG [here](https://www.dropbox.com/sh/qhrwaw2rzjqbf5r/AABsYzFc7a4ewWkIJYHHBs85a?dl=0).
-
-## Usage
+## 📦 Installation
 
 ```sh
-git clone https://github.com/mattdesl/color-wander.git
+git clone https://github.com/sandoche/color-wander
 cd color-wander
+sudo apt-get install libgif-dev
+sudo apt-get install libjpeg-dev
 npm install
 ```
 
-To run the browser experience:
+## ⚙️ Usage
+
+### Browser experience
 
 ```sh
 npm run start
 ```
+
+### Command line interface
 
 When you find a seed you like, you can render it as a high-resolution (2560x1440) print. The following will render a PNG into the `output/` folder.
 
@@ -54,7 +37,3 @@ node print 180423
 ```
 
 > *Note:* For this experiment, the Node output resolution is currently the same as the browser canvas. Typically this approach, using `node-canvas`, is only worthwhile for much larger canvas resolutions.
-
-## License
-
-MIT, see [LICENSE.md](http://github.com/mattdesl/color-wander/blob/master/LICENSE.md) for details.
