@@ -33,8 +33,8 @@ module.exports = function (seed) {
     pointilism: random(0, 0.1),
     noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
     globalAlpha: 0.5,
-    startArea: random(0, 2.5), // random(0.0, 1.5),
-    maxRadius: random(5, 250),
+    startArea: random(0, 2.5), // default 0.0, 1.5,
+    maxRadius: random(5, 150), // default 5,100
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
     count: Math.floor(random(50, 10000)),
