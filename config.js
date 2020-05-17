@@ -38,7 +38,7 @@ module.exports = function (seed) {
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
     count: Math.floor(random(50, 10000)),
-    steps: Math.floor(random(100, 10000)),
+    steps: Math.floor(random(100, 4000)),
     endlessBrowser: false, // Whether to endlessly step in browser
 
     // background image that drives the algorithm
