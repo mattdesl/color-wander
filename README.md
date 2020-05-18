@@ -4,6 +4,8 @@
 
 Project forked from [mattdesl/color-wander](https://github.com/mattdesl/color-wander)
 
+> I updated a little bit the code in order to get some inspiration, in order to learn real painting
+
 ## 📦 Installation
 
 ```sh
