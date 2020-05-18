@@ -41,6 +41,6 @@ node print 180423
 
 > *Note:* For this experiment, the Node output resolution is currently the same as the browser canvas. Typically this approach, using `node-canvas`, is only worthwhile for much larger canvas resolutions.
 
-### Results
+### 🎨 Results
 
 Checkout the results with different settings in [results](results)
