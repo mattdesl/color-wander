@@ -2,9 +2,9 @@
 
 🎨 Generative artwork in node/browser based on a seeded random.
 
-Project forked from [mattdesl/color-wander](https://github.com/mattdesl/color-wander)
-
 > I updated a little bit the code in order to get some inspiration, in order to learn real painting
+
+Project forked from [mattdesl/color-wander](https://github.com/mattdesl/color-wander)
 
 ## 📦 Installation
 
