@@ -35,7 +35,8 @@ module.exports = function (seed) {
     'geo3.jpg', 'geo1.jpg', 'fractal2.jpg',
     'fractal1.jpg', 'eye.jpg', 'city5.jpg',
     'city2.jpg', 'church2.jpg', 'architecture.jpg',
-    'pat1.jpg'
+    'pat1.jpg', 'sea1.jpg', 'sea2.jpg', 'sea3.jpg',
+    'sea4.jpg', 'sea5.jpg', 'sea6.jpg', 'sea7.jpg'
   ].map(function (p) {
     return 'maps/' + p;
   });
