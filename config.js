@@ -28,7 +28,10 @@ module.exports = function (seed) {
   var randomFunc = seedRandom(seed);
   var random = createRandomRange(randomFunc);
 
-  var maps = (JSON.parse(process.env.IMAGES) || [
+  console.log(process.env.IMAGES);
+  console.log(JSON.parse(process.env.IMAGES));
+
+  var maps = [
     'sym6.jpg', 'sym3.jpg',
     'scifi.jpg', 'nature1.jpg',
     'map7.jpg', 'geo5.jpg', 'geo4.jpg',
@@ -37,7 +40,7 @@ module.exports = function (seed) {
     'city2.jpg', 'church2.jpg', 'architecture.jpg',
     'pat1.jpg', 'sea1.jpg', 'sea2.jpg', 'sea3.jpg',
     'sea4.jpg', 'sea5.jpg', 'sea6.jpg', 'sea7.jpg'
-  ]).map(function (p) {
+  ].map(function (p) {
     return 'maps/' + p;
   });
 
