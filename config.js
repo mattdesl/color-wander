@@ -8,7 +8,7 @@ var MIN_STEPS = parseInt(process.env.MIN_STEPS) || 100;
 var MAX_STEPS = parseInt(process.env.MAX_STEPS) || 1000;
 
 var MIN_COUNT = parseInt(process.env.MIN_COUNT) || 50;
-var MAX_COUNT = parseInt(process.env.MAX_COUNT) || 1000;
+var MAX_COUNT = parseInt(process.env.MAX_COUNT) || 2000;
 
 var MIN_MAX_RADIUS = parseInt(process.env.MIN_MAX_RADIUS) || 5;
 var MAX_MAX_RADIUS = parseInt(process.env.MAX_MAX_RADIUS) || 100;
