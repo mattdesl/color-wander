@@ -1,4 +1,5 @@
 The MIT License (MIT)
+Copyright (c) 2020 Sandoche Adittane
 Copyright (c) 2016 Matt DesLauriers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

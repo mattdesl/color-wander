@@ -1,6 +1,22 @@
+require('dotenv').config()
+
 var seedRandom = require('seed-random');
 var palettes = require('./lib/color-palettes.json');
 var createRandomRange = require('./lib/random-range');
+
+var MIN_STEPS = parseInt(process.env.MIN_STEPS) || 100;
+var MAX_STEPS = parseInt(process.env.MAX_STEPS) || 1000;
+
+var MIN_COUNT = parseInt(process.env.MIN_COUNT) || 50;
+var MAX_COUNT = parseInt(process.env.MAX_COUNT) || 1000;
+
+var MIN_MAX_RADIUS = parseInt(process.env.MIN_MAX_RADIUS) || 5;
+var MAX_MAX_RADIUS = parseInt(process.env.MAX_MAX_RADIUS) || 100;
+
+var MIN_START_AREA = parseInt(process.env.MIN_START_AREA) || 0;
+var MAX_START_AREA = parseInt(process.env.MAX_START_AREA) || 1.5;
+
+
 
 module.exports = function (seed) {
   if (typeof seed === 'undefined') {
@@ -33,12 +49,12 @@ module.exports = function (seed) {
     pointilism: random(0, 0.1),
     noiseScalar: [ random(0.000001, 0.000001), random(0.0002, 0.004) ],
     globalAlpha: 0.5,
-    startArea: random(0, 2.5), // default 0.0, 1.5,
-    maxRadius: random(5, 150), // default 5,100
+    startArea: random(MIN_START_AREA, MAX_START_AREA),
+    maxRadius: random(MIN_MAX_RADIUS, MAX_MAX_RADIUS),
     lineStyle: random(1) > 0.5 ? 'round' : 'square',
     interval: random(0.001, 0.01),
-    count: Math.floor(random(50, 10000)),
-    steps: Math.floor(random(100, 4000)),
+    count: Math.floor(random(MIN_COUNT, MAX_COUNT)),
+    steps: Math.floor(random(MIN_STEPS, MAX_STEPS)),
     endlessBrowser: false, // Whether to endlessly step in browser
 
     // background image that drives the algorithm

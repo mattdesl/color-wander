@@ -9,6 +9,7 @@ Project forked from [mattdesl/color-wander](https://github.com/mattdesl/color-wa
 ```sh
 git clone https://github.com/sandoche/color-wander
 cd color-wander
+cp .env.dist .env
 sudo apt-get install libgif-dev
 sudo apt-get install libjpeg-dev
 npm install

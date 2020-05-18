@@ -7,3 +7,4 @@ good/
 output/*.png
 output/*.jpg
 video/
+.env
