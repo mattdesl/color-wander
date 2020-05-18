@@ -28,9 +28,6 @@ module.exports = function (seed) {
   var randomFunc = seedRandom(seed);
   var random = createRandomRange(randomFunc);
 
-  console.log(process.env.IMAGES);
-  console.log(JSON.parse(process.env.IMAGES));
-
   var maps = [
     'sym6.jpg', 'sym3.jpg',
     'scifi.jpg', 'nature1.jpg',
