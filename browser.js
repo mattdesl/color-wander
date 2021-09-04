@@ -73,6 +73,8 @@ function reload (config) {
   background.onload = () => {
     var renderer = createRenderer(opts);
 
+    document.querySelector('.download').onclick = () => window.open(canvas.toDataURL(), '_blank')
+
     if (opts.debugLuma) {
       renderer.debugLuma();
     } else {
