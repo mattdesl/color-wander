@@ -27,8 +27,12 @@ Here are a few examples.
 
 You can download some of these as lossless PNG [here](https://www.dropbox.com/sh/qhrwaw2rzjqbf5r/AABsYzFc7a4ewWkIJYHHBs85a?dl=0).
 
-## Usage
+## Prerequisites
+- Node v4.3.0
+- You might need to install the dependencies for `node-canvas` described [here](https://github.com/Automattic/node-canvas#installation)
 
+
+## Usage
 ```sh
 git clone https://github.com/mattdesl/color-wander.git
 cd color-wander
