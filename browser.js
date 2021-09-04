@@ -40,6 +40,7 @@ var randomize = (ev) => {
 };
 randomize();
 resize();
+initAutoMode();
 
 const addEvents = (element) => {
   element.addEventListener('mousedown', (ev) => {
@@ -127,4 +128,35 @@ function letterbox (element, parent) {
   element.style.top = y + 'px';
   element.style.width = width + 'px';
   element.style.height = height + 'px';
+}
+
+// Automatically reseeds after the specified time in the URL. For example:
+// http://color-wander.surge.sh/?autotime=30s
+// You can use ms, s, or m to specify milliseconds, seconds, or minutes respectively. 
+function initAutoMode () {
+  var parsedMilliseconds = 0;
+  
+  location.search.replace('?', '').split('&').forEach(function (param) {
+    var parts = param.split('=');
+    if (parts[0].toLowerCase() === 'autotime') {
+      var autoTime = parts[1];
+      parsedMilliseconds = parseFloat(autoTime);
+      if (isNaN(parsedMilliseconds)) {
+        console.error('malformed autotime param; not a number');
+        return;
+      }
+      
+      if (/ms$/i.test(autoTime)) {
+        // Already good
+      } else if (/s$/i.test(autoTime)) {
+        parsedMilliseconds *= 1000; // Convert from seconds
+      } else if (/m$/i.test(autoTime)) {
+        parsedMilliseconds *= 1000 * 60; // Convert from minutes
+      }
+    }
+  });
+
+  if (parsedMilliseconds) {
+    setInterval(randomize, parsedMilliseconds);
+  }
 }
