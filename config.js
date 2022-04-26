@@ -55,8 +55,9 @@ module.exports = function (seed) {
 
     // node only options
     asVideoFrames: false,
-    filename: 'render',
-    outputDir: 'output'
+    filename: '',
+    outputDir: 'output',
+    outputJsonDir: 'output_json'
   };
 
   function getPalette () {

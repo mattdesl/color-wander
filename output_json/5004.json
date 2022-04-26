@@ -1,0 +1,12 @@
+{
+    "description": "Just some guy that likes to code.",
+    "image": "ipfs://.../5004.png",
+    "name": "Wanderer #5004",
+    "attributes": [
+        {
+            "display_type": "number",
+            "trait_type": "Edition",
+            "value": 3
+        }
+    ]
+}

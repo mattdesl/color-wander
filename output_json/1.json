@@ -1,0 +1,12 @@
+{
+    "description": "Just some guy that likes to code.",
+    "image": "ipfs://bafybeih3ykpa42eipgtzcrfkeo5nvazcdqhj3oh3ztju44tcoipzsdaauy/images/1.png",
+    "name": "Wanderer #1",
+    "attributes": [
+        {
+            "display_type": "number",
+            "trait_type": "Edition",
+            "value": 1
+        }
+    ]
+}
